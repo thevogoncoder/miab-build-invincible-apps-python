@@ -73,90 +73,98 @@ You can either open three separate terminals, or use a terminal multiplex such a
 2. In the second terminal, run the following commands to demo Volatile Execution.
 The Temporal Service you started will not be used in this portion.
     1. Be sure to activate your virtual environment:
-    ```bash
-    source venv/bin/activate
-    ```
+        ```bash
+        source venv/bin/activate
+        ```
     2. Change directories into the `durable-vs-volatile-execution/volatile` directory:
-    ```bash
-    cd durable-vs-volatile-execution/volatile
-    ```
+        ```bash
+        cd durable-vs-volatile-execution/volatile
+        ```
     3. Show the code to the audience, demonstrating it's a standard loop. Then run the Volatile Execution script
-    ```bash
-    python counter.py
-    ```
+        ```bash
+        python counter.py
+        ```
     4. The script should log the numbers 1 to 10 one at a time, sleeping for 1 second in between, similar to this:
-    ```
-    0
-    1
-    2
-    3
-    4
-    ```
-    Once it has gotten to 4 or 5, use `CTRL-C` and kill the execution.
+        ```
+        0
+        1
+        2
+        3
+        4
+        ```
+        Once it has gotten to 4 or 5, use `CTRL-C` and kill the execution.
+   
     5. Ask the audience 
-    > What will happen if I run the execution again?
+        > What will happen if I run the execution again?
+    
+        The answer should be "It will start over."
+        You can ask
 
-    The answer should be "It will start over."
-    You can ask
+        > Who thinks it will resume where it left off?"
 
-    > Who thinks it will resume where it left off?"
-
-    No one will probably think this, as this is not typical behavior for any programming language.
+        No one will probably think this, as this is not typical behavior for any programming language.
+   
     6. Run the Volatile Execution script again
-    ```bash
-    python counter.py
-    ```
-    Confirm that the code did, in fact, start over.
-3. For this demo you will need both the second and third terminal. Now you will demonstrate the same application, a loop that counts from 1 to 10, sleeping between each step, that does survive killing the process. When the execution is brought back online, it will resume where it left off. **Remember**, this is not the time to go deep into the architecture of Temporal. Mention that for this sample, there's a running process that executes the code and another script that invokes it. 
-    1. Open up a terminal and activate the virtual environment
-    ```bash
-    source venv/bin/activate
-    ```
-    2. Change directories into the `durable-vs-volatile-execution/durable` directory:
-    ```bash
-    cd durable-vs-volatile-execution/durable
-    ```
-    2. Show the `counter.py` file to the audience. 
-    Explain that it's a slight modification, but relatively similar.
-    You added a function to do the addition, and added a few decorators. 
-    **DON'T** go into depth here, all the terms will be defined later.
-    3. Start the Temporal Worker:
-    ```bash
-    python worker.py
-    ```
+        ```bash
+        python counter.py
+        ```
+        Confirm that the code did, in fact, start over.
+   
+4. For this demo you will need both the second and third terminal. Now you will demonstrate the same application, a loop that counts from 1 to 10, sleeping between each step, that does survive killing the process. When the execution is brought back online, it will resume where it left off. 
 
-    You should see output _similar_ to this:
-    ```bash
-    Starting the worker....<PROCESS_ID>@<YOUR_DEVICE_NAME>
-    ```
+   **Remember**, this is not the time to go deep into the architecture of Temporal.
+
+   Mention that for this sample, there's a running process that executes the code and another script that invokes it. 
+    1. Open up a terminal and activate the virtual environment
+        ```bash
+        source venv/bin/activate
+        ```
+    2. Change directories into the `durable-vs-volatile-execution/durable` directory:
+        ```bash
+        cd durable-vs-volatile-execution/durable
+        ```
+    2. Show the `counter.py` file to the audience. 
+        Explain that it's a slight modification, but relatively similar.
+        You added a function to do the addition, and added a few decorators. 
+        **DON'T** go into depth here, all the terms will be defined later.
+    3. Start the Temporal Worker:
+        ```bash
+        python worker.py
+        ```
+
+        You should see output _similar_ to this:
+        ```bash
+        Starting the worker....<PROCESS_ID>@<YOUR_DEVICE_NAME>
+        ```
     4. Change to another terminal and activate the virtual environment
-    ```bash
-    source venv/bin/activate
-    ```
+        ```bash
+        source venv/bin/activate
+        ```
     5. Run the starter script, which will begin the execution of the loop code
-    ```bash
-    python starter.py
-    ```
-    This code will exit immediately. Return to the other terminal.
+        ```bash
+        python starter.py
+        ```
+        This code will exit immediately. Return to the other terminal.
     6. In the previous terminal you should see the output of the loop. Once the loop gets to 4 or 5, CTRL-C the process and kill it. You will see extra output:
-    ```
-    ^CWorker cancelled, shutting down
-    Beginning worker shutdown, will wait 0:00:00 before cancelling activities
-    ```
-    For now you can ignore these.
+        ```
+        ^CWorker cancelled, shutting down
+        Beginning worker shutdown, will wait 0:00:00 before cancelling activities
+        ```
+        For now you can ignore these.
     7. Ask the same question from the previous demo:
 
-    > What will happen if I run the execution again?
-
-    See if the answers change. But then add:
-
-    > Wouldn't it be great if it did just resume working?
+        > What will happen if I run the execution again?
+    
+        See if the audience answers differently. But then add:
+    
+        > Wouldn't it be great if it did just resume working?
 
     8. Restart the Worker and let the code complete
-    ```bash
-    python worker.py
-    ```
-    The code should pick up where it left off, resuming from the next number in the count.
+        ```bash
+        python worker.py
+        ```
+        The code should pick up where it left off, resuming from the next number in the count.
+   
     9. Open a browser tab to [http://127.0.0.1:8080](http://127.0.0.1:8080) to view the Temporal Web UI. Go to the Workflow Execution of this run and show the timeline view. You should see the timers and the call to the `add_one` method. Click on a single Activity Task and show the input and output. 
 
     People may be very interested and start asking a lot of questions, try to hold them off, there will be plenty of time going forward. Go back to the slides and resume the presentation.
@@ -193,38 +201,38 @@ You can either open three separate terminals, or use a terminal multiplex such a
     ```
 2. In the second terminal, run the following commands to start the Temporal Worker:
     1. Be sure to activate your virtual environment:
-    ```bash
-    source venv/bin/activate
-    ```
+        ```bash
+        source venv/bin/activate
+        ```
     2. Change directories into the `hello-ip` directory:
-    ```bash
-    cd hello-ip
-    ```
+        ```bash
+        cd hello-ip
+        ```
     3. Start the Temporal Worker:
-    ```bash
-    python worker.py
-    ```
+        ```bash
+        python worker.py
+        ```
 3. In the third terminal, run the following commands to start the Flask application:
     1. Be sure to activate your virtual environment:
-    ```bash
-    source venv/bin/activate
-    ```
+        ```bash
+        source venv/bin/activate
+        ```
     2. Change directories into the `hello-ip` directory:
-    ```bash
-    cd hello-ip
-    ```
+        ```bash
+        cd hello-ip
+        ```
     3. Start the Flask application on port `8000`:
-    ```bash
-    python app.py
-    ```
+        ```bash
+        python app.py
+        ```
 4. Open a browser tab to [http://127.0.0.1:8000](http://127.0.0.1:8000) to view the Flask application.
 5. Open a browser tab to [http://127.0.0.1:8080](http://127.0.0.1:8080) to view the Temporal Web UI.
 
 ### Demo #1 Successful Execution
 
-**Purpose**: Show the working application
-**Failure**: None
-**Temporal Feature Demonstrated**: Temporal Web UI
+**Purpose**: Show the working application  
+**Failure**: None  
+**Temporal Feature Demonstrated**: Temporal Web UI  
 **Audience Takeaway**: Temporal keeps track of the results of each Activity and Workflow.
 We can use the Web UI to debug issues when they go wrong.
 
@@ -246,10 +254,10 @@ We can use the Web UI to debug issues when they go wrong.
 
 ### Demo #2 Successful Execution with a Durable Timer
 
-**Purpose**: Show the working application with a small pause happening between the service calls
-**Failure**: None
-**Temporal Feature Demonstrated**: Durable Timers
-**Audience Takeaway**: Temporal supports Timers. This is setting up for the next demo and allowing us to create time to simulate failures.
+**Purpose**: Show the working application with a small pause happening between the service calls  
+**Failure**: None  
+**Temporal Feature Demonstrated**: Durable Timers  
+**Audience Takeaway**: Temporal supports Timers. This is setting up for the next demo and allowing us to create time to simulate failures.  
 
 1. Explain to the audience that next you'll introduce a delay in between the two calls:
     > "Next, I'm going to introduce a delay between the two calls. This is going to help me simulate various failure scenarios going forward, and also demonstrate the concept of Durable Timers. So this application can take in an integer via the form and sleep for that amount of seconds after executing the first Activity but before executing the second."
@@ -269,9 +277,9 @@ We can use the Web UI to debug issues when they go wrong.
 
 ### Demo #3 Worker Becomes Unavailable During an Execution
 
-**Purpose**: Demonstrate that a Timer fires regardless if there is a Worker running.
-**Failure**: Worker will "become unavailable" (ctrl-c) while a Timer is waiting to fire
-**Temporal Feature Demonstrated**: Durable Timers
+**Purpose**: Demonstrate that a Timer fires regardless if there is a Worker running.  
+**Failure**: Worker will "become unavailable" (ctrl-c) while a Timer is waiting to fire  
+**Temporal Feature Demonstrated**: Durable Timers  
 **Audience Takeaway**: Timers are managed on the Temporal Service side. 
 They will fire regardless if there is a Worker running or not.
 If a Timer fires and a Worker is not available, it will pick up when a Worker becomes available again.
@@ -307,10 +315,10 @@ If a Timer fires and a Worker is not available, it will pick up when a Worker be
 
 ### Demo #4 Temporal Outage During an Execution
 
-**Purpose**: Demonstrate that the Temporal Service going down won't stop us!
-**Failure**: The Temporal Service will "crash" (ctrl-c) while the Timer is waiting to fire.
-**Temporal Feature Demonstrated**: Durability of Temporal
-**Audience Takeaway**: The Temporal Service itself is durable.
+**Purpose**: Demonstrate that the Temporal Service going down won't stop us!  
+**Failure**: The Temporal Service will "crash" (ctrl-c) while the Timer is waiting to fire.  
+**Temporal Feature Demonstrated**: Durability of Temporal  
+**Audience Takeaway**: The Temporal Service itself is durable.  
 
 1. Explain to the audience that a Durable Timer will fire regardless if a Worker is available:
     > "You've seen the Worker become unavailable, you've seen the network fail. But what if Temporal fails? "
@@ -335,10 +343,10 @@ Comment
 
 ### Demo #5 - Recovering from a Bug
 
-**Purpose**: Demonstrate that Temporal allows you to fix bugs even while the code is running
-**Failure**: We're going to introduce a bug into our code, fix it, and watch Temporal recover
-**Temporal Feature Demonstrated**: Durable execution
-**Audience Takeaway**: Temporal allows developers to address bugs while the code is running.
+**Purpose**: Demonstrate that Temporal allows you to fix bugs even while the code is running  
+**Failure**: We're going to introduce a bug into our code, fix it, and watch Temporal recover  
+**Temporal Feature Demonstrated**: Durable execution  
+**Audience Takeaway**: Temporal allows developers to address bugs while the code is running.  
 
 1. Explain to the audience that Temporal can even let you fix bugs while the code is running, without having to stop execution:
     > "If you have a bug in your code, what do you usually have to do? Stop the code, fix it, and then restart the code. But what about in Temporal? If Activities are retried forever, and the previous state is saved, shouldn't we be able to fix the code, deploy it, and continue execution?"
@@ -370,10 +378,10 @@ Comment
 If the venue uses a captive portal WiFi, reconnecting may be difficult. 
 Only do this demo if you can disconnect without causing an interruption, and trust that it will reconnect without issue. 
 
-**Purpose**: Demonstrate how Temporal retries until either success or cancellation
-**Failure**: Network will have an "outage" as the presenter will turn off their Wifi while the app is running.
-**Temporal Feature Demonstrated**: Activity Retries
-**Audience Takeaway**: Temporal automatically retries Activities on failure.
+**Purpose**: Demonstrate how Temporal retries until either success or cancellation  
+**Failure**: Network will have an "outage" as the presenter will turn off their Wifi while the app is running.  
+**Temporal Feature Demonstrated**: Activity Retries  
+**Audience Takeaway**: Temporal automatically retries Activities on failure.  
 An intermittent failure, such as a network outage, will be retried until the Activity completes successfully or is cancelled.
 
 1. Ask the audience what they think will happen if the network were to go out while the application was running:
