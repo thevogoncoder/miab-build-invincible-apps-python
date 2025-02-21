@@ -1,4 +1,5 @@
 import asyncio
+import concurrent.futures
 import logging
 import sys
 
@@ -12,14 +13,18 @@ async def main():
     client = await Client.connect("localhost:7233", namespace="default")
 
     try:
-        worker = Worker(
-            client,
-            task_queue="durable",
-            workflows=[CountingWorkflow],
-            activities=[add_one],
-        )
-        logging.info(f"Starting the worker....{client.identity}")
-        await worker.run()
+        with concurrent.futures.ThreadPoolExecutor(
+            max_workers=100
+        ) as activity_executor:
+            worker = Worker(
+                client,
+                task_queue="durable",
+                workflows=[CountingWorkflow],
+                activities=[add_one],
+                activity_executor=activity_executor,
+            )
+            logging.info(f"Starting the worker....{client.identity}")
+            await worker.run()
     except asyncio.exceptions.CancelledError:
         sys.exit(0)
     except KeyboardInterrupt:

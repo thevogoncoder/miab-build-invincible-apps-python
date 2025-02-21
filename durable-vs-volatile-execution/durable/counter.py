@@ -5,7 +5,7 @@ from temporalio import activity, workflow
 
 
 @activity.defn
-async def add_one(num: int) -> int:
+def add_one(num: int) -> int:
     return num + 1
 
 
