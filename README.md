@@ -36,7 +36,7 @@ In order to present this material, you will need to install a development versio
     ```bash
     source venv/bin/activate
     ```
-6. Install the required packages, which includes `temporalio`, `aiohttp`, and `flask`:
+6. Install the required packages, which includes `temporalio`, `requests`, and `flask`:
     ```bash
     python -m pip install -r requirements.txt
     ```
