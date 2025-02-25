@@ -204,9 +204,9 @@ You can either open three separate terminals, or use a terminal multiplex such a
         ```bash
         source venv/bin/activate
         ```
-    2. Change directories into the `hello-ip` directory:
+    2. Change directories into the `iplocate` directory:
         ```bash
-        cd hello-ip
+        cd iplocate
         ```
     3. Start the Temporal Worker:
         ```bash
@@ -217,9 +217,9 @@ You can either open three separate terminals, or use a terminal multiplex such a
         ```bash
         source venv/bin/activate
         ```
-    2. Change directories into the `hello-ip` directory:
+    2. Change directories into the `iplocate` directory:
         ```bash
-        cd hello-ip
+        cd iplocate
         ```
     3. Start the Flask application on port `8000`:
         ```bash
