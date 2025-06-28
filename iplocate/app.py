@@ -3,14 +3,21 @@ import datetime
 
 from flask import Flask, render_template, request
 from shared import DEMO_OPTIONS, WorkflowInput
-from temporalio.client import Client
+from temporalio.client import Client, KeepAliveConfig
+from temporalio.service import RetryConfig
 from workflow import GetAddressFromIP
 
 app = Flask(__name__)
 
 
 async def connect_temporal(app):
-    client = await Client.connect("localhost:7233")
+    client = await Client.connect("localhost:7233", retry_config=RetryConfig(
+                initial_interval_millis=1000,
+                max_interval_millis=10000,
+                max_elapsed_time_millis=60000,
+                multiplier=2.0,
+                max_retries=10,
+            ),)
     app.temporal_client = client
 
 
@@ -53,4 +60,4 @@ if __name__ == "__main__":
     # Create Temporal connection.
     asyncio.run(connect_temporal(app))
 
-    app.run(debug=True, port=8000)
+    app.run(debug=False, port=8000)
